@@ -64,59 +64,16 @@ margin-top: 5px;
   </style>
 </head>
 <body>
-  <header>
+ <header>
     <img src="https://assets.locations.trulynolen.com/images/Truly-Nolen-Logo.png" />
   </header>
 
   <h2>Registro de Asistencia</h2>
 
-  <form id="asistenciaForm">
-    <label for="nombre">Nombre:</label>
-    <input type="text" id="nombre" name="nombre" required />
-
-    <label for="tipo">Tipo de registro:</label>
-    <select id="tipo" name="tipo" required>
-      <option value="entrada">Entrada</option>
-      <option value="salida">Salida</option>
-    </select>
-
-    <button type="submit">Registrar</button>
-  </form>
-
-  <div id="mensaje"></div>
-
-  <script>
-    document.getElementById("asistenciaForm").onsubmit = function(e) {
-      e.preventDefault();
-navigator.geolocation.getCurrentPosition(function(position) {
-        const data = {
-          nombre: document.getElementById("nombre").value,
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-          tipo: document.getElementById("tipo").value
-        };
-
-        fetch("https://script.google.com/macros/s/AKfycbxzKTOkok3M8-Epri8zfU864np3cKt8YSQPehfX_a6yuFyKVDVi0VaKIufT1HZglXSQ/exec", 
-{method: "POST",
-          body: JSON.stringify(data),
-          headers: { "Content-Type": "application/json" }
-        })
-        .then(res => res.text())
-        .then(text => {
-          document.getElementById("mensaje").innerText = text;
-          if(text.includes("registrada")) {
-            document.getElementById("asistenciaForm").reset();
-          }
-        })
-        .catch(() => {
-          document.getElementById("mensaje").innerText = "Error al registrar, intenta de nuevo.";
-        });
-      }, function(error) {
-        alert("No se pudo obtener la ubicación. Por favor permite el acceso.");
-      });
-    };
-  </script>
+  <!-- Aquí va el formulario de Google Forms -->
+  <iframe src="<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd6scKtAvvNpgMmRnnHSZh9fLmMQ23A8N5L6fwu3K8RQt7akA/viewform?embedded=true" width="640" height="797" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>" width="100%" height="900" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
 </body>
 </html>
+
 
 
