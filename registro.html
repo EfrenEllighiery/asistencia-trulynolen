@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Registro de Asistencia - Truly Nolen</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      color: #000;
+      max-width: 400px;
+      margin: 30px auto;
+      padding: 20px;
+      border: 2px solid #e2231a;
+      border-radius: 8px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    header img {
+      max-width: 150px;
+      margin-bottom: 10px;
+    }
+    h2 {
+      color: #fdb913;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input[type="text"], select {
+      width: 100%;
+      padding: 8px;
+margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px;
+      background-color: #e2231a;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #b21714;
+    }
+    #mensaje {
+      margin-top: 15px;
+      font-weight: bold;
+      text-align: center;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://assets.locations.trulynolen.com/images/Truly-Nolen-Logo.png" />
+  </header>
+
+  <h2>Registro de Asistencia</h2>
+
+  <form id="asistenciaForm">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required />
+
+    <label for="tipo">Tipo de registro:</label>
+    <select id="tipo" name="tipo" required>
+      <option value="entrada">Entrada</option>
+      <option value="salida">Salida</option>
+    </select>
+
+    <button type="submit">Registrar</button>
+  </form>
+
+  <div id="mensaje"></div>
+
+  <script>
+    document.getElementById("asistenciaForm").onsubmit = function(e) {
+      e.preventDefault();
+navigator.geolocation.getCurrentPosition(function(position) {
+        const data = {
+          nombre: document.getElementById("nombre").value,
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+          tipo: document.getElementById("tipo").value
+        };
+
+        fetch("https://script.google.com/macros/s/AKfycbxzKTOkok3M8-Epri8zfU864np3cKt8YSQPehfX_a6yuFyKVDVi0VaKIufT1HZglXSQ/exec", 
+{method: "POST",
+          body: JSON.stringify(data),
+          headers: { "Content-Type": "application/json" }
+        })
+        .then(res => res.text())
+        .then(text => {
+          document.getElementById("mensaje").innerText = text;
+          if(text.includes("registrada")) {
+            document.getElementById("asistenciaForm").reset();
+          }
+        })
+        .catch(() => {
+          document.getElementById("mensaje").innerText = "Error al registrar, intenta de nuevo.";
+        });
+      }, function(error) {
+        alert("No se pudo obtener la ubicación. Por favor permite el acceso.");
+      });
+    };
+  </script>
+</body>
+</html>
+
